@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
+project(hashmap_test VERSION 1.0.0 LANGUAGES C)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wunused -Werror")
+add_executable(hashmap_test
+    hashmap_test.c
+)
 
-# Build hashmap library with metrics enabled
-add_definitions(-DHASHMAP_METRICS)
+target_compile_options(hashmap_test PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall -Wunused -Werror>)
 
-include_directories(../src)
-
-add_executable(hashmap_test ../src/hashmap.c hashmap_test.c)
+target_link_libraries(hashmap_test HashMap::HashMap)
