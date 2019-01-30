@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(hashmap VERSION 1.0.0 LANGUAGES C)
 
+# Option to build the hashmap tests
+option(BUILD_TESTS "Build tests" OFF)
+
 ##############################################
 # Create target and set properties
 
@@ -21,6 +24,10 @@ target_include_directories(hashmap
 )
 
 target_compile_options(hashmap PRIVATE $<$<CXX_COMPILER_ID:GNU>:-Wall -Wunused -Werror>)
+
+if(BUILD_TESTS)
+    target_compile_definitions(hashmap PUBLIC HASHMAP_METRICS)
+endif()
 
 ##############################################
 # Installation instructions
@@ -75,3 +82,7 @@ export(EXPORT hashmap-targets FILE ${CMAKE_CURRENT_BINARY_DIR}/HashMapTargets.cm
 
 #Register package in user's package registry
 export(PACKAGE HashMap)
+
+if(BUILD_TESTS)
+    add_subdirectory(test)
+endif()
